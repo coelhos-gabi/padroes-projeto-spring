@@ -10,8 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("clientes")
 public class ClienteRestController {
+    // Expõe os endpoints
     @Autowired
     private ClienteService clienteService;
+
+    @PostMapping
+    public ResponseEntity<Cliente> inserir(@RequestBody Cliente cliente){
+        clienteService.inserir(cliente);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(cliente);
+    }
 
     @GetMapping
     public ResponseEntity<Iterable<Cliente>> buscarTodos(){
@@ -20,7 +28,7 @@ public class ClienteRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> buscaroPorId(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.ok()
                 .body(clienteService.buscarPorId(id));
     }
     @PutMapping("/{id}")
